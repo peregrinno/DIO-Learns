@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func main() {
+func challengeOne() {
 	// Conversão do valor dor ponto de ebulição da água para Celsius
 	ebulicaoK := 212.0
 	ebulicaoC := (ebulicaoK - 32) * 5 / 9
