@@ -2,37 +2,33 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func challengeThree() {
-	c1 := make(chan string, 10)
-	c2 := make(chan string, 10)
+	ping := make(chan struct{})
+	pong := make(chan struct{})
 
 	go func() {
 		for i := 0; i < 5; i++ {
-			c1 <- "ping"
+			<-ping
+			fmt.Printf("#%d: ping\n", i*2)
 		}
-		close(c1)
-	}()
-	go func() {
-		for i := 0; i < 5; i++ {
-			c2 <- "pong"
-		}
-		close(c2)
 	}()
 
-	for i := 0; i < 10; i++ {
-		select {
-		case msg1, ok := <-c1:
-			if ok {
-				fmt.Printf("#%d: %s\n", i, msg1)
-			}
-		case msg2, ok := <-c2:
-			if ok {
-				fmt.Printf("#%d: %s\n", i, msg2)
+	go func() {
+		for i := 0; i < 5; i++ {
+			<-pong
+			fmt.Printf("#%d: pong\n", i*2+1)
+			if i < 4 {
+				ping <- struct{}{}
 			}
 		}
-	}
+	}()
+
+	ping <- struct{}{}
+
+	time.Sleep(time.Second)
 }
 
 func main() {
