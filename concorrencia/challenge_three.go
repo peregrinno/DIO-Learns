@@ -13,11 +13,13 @@ func challengeThree() {
 		for i := 0; i < 5; i++ {
 			<-ping
 			fmt.Printf("#%d: ping\n", i*2)
+			pong <- struct{}{}
 		}
 	}()
 
 	go func() {
 		for i := 0; i < 5; i++ {
+
 			<-pong
 			fmt.Printf("#%d: pong\n", i*2+1)
 			if i < 4 {
