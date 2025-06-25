@@ -9,5 +9,5 @@ func main() {
 	//fatias()
 	//mapasPotentes()
 	//metodos()
-	challengeTwo()
+	//challengeTwo()
 }
